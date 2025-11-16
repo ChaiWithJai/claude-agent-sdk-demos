@@ -25,6 +25,28 @@ A multi-agent research system that coordinates specialized subagents to research
 - Synthesizes findings into detailed reports
 - Demonstrates detailed subagent activity tracking
 
+### 📝 [Meeting Notes Processor](./meeting-notes-app)
+Transform raw meeting notes into structured team documentation and professional action plan slides:
+- Extract key discussion points, decisions, and action items
+- Generate comprehensive team documentation (Markdown)
+- Create professional presentation slides (HTML)
+- Download outputs in multiple formats
+- Uses Claude Agent SDK for intelligent processing
+
+### 🎯 [Mandala Chart Builder](./mandala-app)
+Create personalized 9x9 Mandala Charts using the proven goal decomposition methodology:
+- Define ultimate goals and break them into actionable steps
+- Generate interactive HTML visualizations
+- Create personalized action plans
+- Demonstrates Claude Agent SDK skill integration
+
+### 🗺️ [Codebase Cartographer](./codebase-cartographer-ui)
+Visualize and explore codebase architecture with AI-powered analysis:
+- Generate interactive codebase maps
+- Understand project structure and dependencies
+- Navigate complex codebases efficiently
+- Uses Claude Agent SDK for code analysis
+
 ## Quick Start
 
 Each demo has its own directory with dedicated setup instructions. Navigate to the specific demo folder and follow its README for setup and usage details.
