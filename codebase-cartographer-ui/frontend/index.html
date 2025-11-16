@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codebase Cartographer & Code Review Tools</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+        .tool-badge {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .code-output {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 13px;
+        }
+        .mandala-preview {
+            background: radial-gradient(circle, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.05) 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Main Application Component
+        function CodebaseToolsUI() {
+            const [activeTab, setActiveTab] = useState('home');
+            const [repoPath, setRepoPath] = useState('');
+            const [analysisResults, setAnalysisResults] = useState({});
+            const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+            const tools = {
+                cartographer: [
+                    {
+                        id: 'hotspots',
+                        name: 'Hotspot Analysis',
+                        icon: 'fa-fire',
+                        color: 'text-red-500',
+                        description: 'Identify high-complexity, high-churn files that need refactoring',
+                        script: 'analyze_hotspots.py',
+                        metrics: ['Commit Frequency', 'Lines of Code', 'Risk Score']
+                    },
+                    {
+                        id: 'archaeology',
+                        name: 'Git Archaeology',
+                        icon: 'fa-magnifying-glass',
+                        color: 'text-blue-500',
+                        description: 'Extract institutional knowledge from version control history',
+                        script: 'git_archaeology.py',
+                        metrics: ['Authorship', 'Knowledge Silos', 'Temporal Coupling']
+                    },
+                    {
+                        id: 'dependencies',
+                        name: 'Dependency Graph',
+                        icon: 'fa-diagram-project',
+                        color: 'text-green-500',
+                        description: 'Visualize module relationships and architecture',
+                        script: 'build_dependency_graph.py',
+                        metrics: ['Core Modules', 'Infrastructure', 'Coupling']
+                    },
+                    {
+                        id: 'dataflow',
+                        name: 'Data Flow Mapping',
+                        icon: 'fa-stream',
+                        color: 'text-purple-500',
+                        description: 'Map architectural planes and data movement patterns',
+                        script: 'analyze_data_flow.py',
+                        metrics: ['Management Plane', 'Control Plane', 'Data Plane']
+                    },
+                    {
+                        id: 'jtbd',
+                        name: 'JTBD Story Extraction',
+                        icon: 'fa-map-location-dot',
+                        color: 'text-yellow-500',
+                        description: 'Extract user journeys from code patterns',
+                        script: 'map_jtbd_stories.py',
+                        metrics: ['User Journeys', 'API Patterns', 'Actions']
+                    }
+                ],
+                codeReview: [
+                    {
+                        id: 'review',
+                        name: 'Code Review Analysis',
+                        icon: 'fa-code-pull-request',
+                        color: 'text-indigo-500',
+                        description: 'Comprehensive code review with high standards',
+                        checklist: ['Architecture', 'Code Quality', 'Testing', 'Documentation']
+                    }
+                ]
+            };
+
+            const HomePage = () => (
+                <div className="space-y-8">
+                    {/* Hero Section */}
+                    <div className="gradient-bg text-white rounded-2xl p-8 shadow-lg">
+                        <h1 className="text-4xl font-bold mb-4">
+                            <i className="fa-solid fa-compass mr-3"></i>
+                            Codebase Cartographer & Code Review Suite
+                        </h1>
+                        <p className="text-xl opacity-90 mb-6">
+                            Powerful tools to analyze, understand, and maintain code quality
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                            <div className="bg-white/10 backdrop-blur rounded-lg p-4">
+                                <div className="text-3xl font-bold">5</div>
+                                <div className="text-sm opacity-80">Analysis Tools</div>
+                            </div>
+                            <div className="bg-white/10 backdrop-blur rounded-lg p-4">
+                                <div className="text-3xl font-bold">3</div>
+                                <div className="text-sm opacity-80">Architectural Planes</div>
+                            </div>
+                            <div className="bg-white/10 backdrop-blur rounded-lg p-4">
+                                <div className="text-3xl font-bold">80+</div>
+                                <div className="text-sm opacity-80">Review Checklist Items</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Repository Input */}
+                    <div className="bg-white rounded-xl p-6 shadow-md">
+                        <h2 className="text-2xl font-bold mb-4 flex items-center">
+                            <i className="fa-solid fa-folder-open mr-3 text-blue-600"></i>
+                            Repository Path
+                        </h2>
+                        <div className="flex gap-3">
+                            <input
+                                type="text"
+                                value={repoPath}
+                                onChange={(e) => setRepoPath(e.target.value)}
+                                placeholder="/path/to/your/repository"
+                                className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none"
+                            />
+                            <button className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                                <i className="fa-solid fa-folder mr-2"></i>
+                                Browse
+                            </button>
+                        </div>
+                        <p className="text-sm text-gray-500 mt-2">
+                            <i className="fa-solid fa-info-circle mr-1"></i>
+                            Current: <code className="bg-gray-100 px-2 py-1 rounded">{repoPath || 'No repository selected'}</code>
+                        </p>
+                    </div>
+
+                    {/* Quick Start Guide */}
+                    <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border-2 border-blue-100">
+                        <h3 className="text-xl font-bold mb-4 text-gray-800">
+                            <i className="fa-solid fa-rocket mr-2 text-blue-600"></i>
+                            Quick Start Guide
+                        </h3>
+                        <ol className="space-y-3 text-gray-700">
+                            <li className="flex items-start">
+                                <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">1</span>
+                                <span>Set your repository path above</span>
+                            </li>
+                            <li className="flex items-start">
+                                <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">2</span>
+                                <span>Choose a tool from the Cartographer or Code Review sections</span>
+                            </li>
+                            <li className="flex items-start">
+                                <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">3</span>
+                                <span>Run analysis and explore the results</span>
+                            </li>
+                            <li className="flex items-start">
+                                <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-3 mt-0.5">4</span>
+                                <span>Export findings or integrate into your workflow</span>
+                            </li>
+                        </ol>
+                    </div>
+
+                    {/* Tools Overview */}
+                    <div>
+                        <h2 className="text-2xl font-bold mb-6 text-gray-800">Available Tools</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Cartographer Section */}
+                            <div className="bg-white rounded-xl p-6 shadow-md border-l-4 border-purple-500">
+                                <h3 className="text-xl font-bold mb-4 flex items-center">
+                                    <i className="fa-solid fa-compass mr-2 text-purple-600"></i>
+                                    Codebase Cartographer
+                                </h3>
+                                <p className="text-gray-600 mb-4">
+                                    Analyze repository health, architecture, and technical debt
+                                </p>
+                                <div className="space-y-2">
+                                    {tools.cartographer.map(tool => (
+                                        <div key={tool.id} className="flex items-center text-sm">
+                                            <i className={`fa-solid ${tool.icon} ${tool.color} mr-2`}></i>
+                                            <span className="text-gray-700">{tool.name}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <button
+                                    onClick={() => setActiveTab('cartographer')}
+                                    className="mt-4 w-full px-4 py-2 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition font-medium"
+                                >
+                                    Explore Cartographer Tools →
+                                </button>
+                            </div>
+
+                            {/* Code Review Section */}
+                            <div className="bg-white rounded-xl p-6 shadow-md border-l-4 border-indigo-500">
+                                <h3 className="text-xl font-bold mb-4 flex items-center">
+                                    <i className="fa-solid fa-code-pull-request mr-2 text-indigo-600"></i>
+                                    Code Review Tool
+                                </h3>
+                                <p className="text-gray-600 mb-4">
+                                    High-standard code review with comprehensive checklists
+                                </p>
+                                <div className="space-y-2">
+                                    {tools.codeReview[0].checklist.map((item, idx) => (
+                                        <div key={idx} className="flex items-center text-sm">
+                                            <i className="fa-solid fa-check text-indigo-500 mr-2"></i>
+                                            <span className="text-gray-700">{item}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <button
+                                    onClick={() => setActiveTab('review')}
+                                    className="mt-4 w-full px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition font-medium"
+                                >
+                                    Open Code Review Tool →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Mandala Chart Preview */}
+                    <div className="mandala-preview rounded-xl p-8 border-2 border-dashed border-purple-300">
+                        <div className="text-center">
+                            <i className="fa-solid fa-dharmachakra text-6xl text-purple-400 mb-4"></i>
+                            <h3 className="text-2xl font-bold mb-2 text-gray-800">Mandala Chart Visualization</h3>
+                            <p className="text-gray-600 mb-4">
+                                Interactive visualization of your codebase health coming soon
+                            </p>
+                            <div className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm">
+                                <span className="tool-badge mr-2">●</span>
+                                Run a full analysis to generate your Mandala Chart
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const CartographerPage = () => {
+                const [selectedTool, setSelectedTool] = useState(null);
+                const [toolConfig, setToolConfig] = useState({});
+                const [output, setOutput] = useState('');
+
+                const runAnalysis = async (tool) => {
+                    if (!repoPath) {
+                        alert('Please set a repository path first!');
+                        return;
+                    }
+                    setIsAnalyzing(true);
+                    setOutput(`Running ${tool.name}...\n\nCommand: python ${tool.script} ${repoPath}\n\n`);
+
+                    try {
+                        const response = await fetch('http://localhost:5000/api/cartographer/analyze', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                tool: tool.id,
+                                repo_path: repoPath,
+                                config: toolConfig
+                            })
+                        });
+
+                        const result = await response.json();
+
+                        if (result.success) {
+                            setOutput(prev => prev + `✓ Analysis complete!\n\n${result.stdout}\n\n`);
+                            if (result.data) {
+                                setOutput(prev => prev + `\n\nParsed Data:\n${JSON.stringify(result.data, null, 2)}`);
+                            }
+                        } else {
+                            setOutput(prev => prev + `✗ Analysis failed!\n\nError: ${result.stderr}\n\n`);
+                        }
+                    } catch (error) {
+                        setOutput(prev => prev + `✗ Error connecting to API server!\n\n${error.message}\n\nMake sure the API server is running: python api_server.py`);
+                    } finally {
+                        setIsAnalyzing(false);
+                    }
+                };
+
+                return (
+                    <div className="space-y-6">
+                        <div className="bg-white rounded-xl p-6 shadow-md">
+                            <h2 className="text-2xl font-bold mb-6 flex items-center">
+                                <i className="fa-solid fa-compass mr-3 text-purple-600"></i>
+                                Codebase Cartographer Tools
+                            </h2>
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                {tools.cartographer.map(tool => (
+                                    <div
+                                        key={tool.id}
+                                        className={`card-hover cursor-pointer rounded-lg p-5 border-2 transition ${
+                                            selectedTool?.id === tool.id
+                                                ? 'border-purple-500 bg-purple-50'
+                                                : 'border-gray-200 bg-white hover:border-purple-300'
+                                        }`}
+                                        onClick={() => setSelectedTool(tool)}
+                                    >
+                                        <div className="flex items-start justify-between mb-3">
+                                            <div className="flex items-center">
+                                                <i className={`fa-solid ${tool.icon} ${tool.color} text-2xl mr-3`}></i>
+                                                <h3 className="font-bold text-lg">{tool.name}</h3>
+                                            </div>
+                                            {selectedTool?.id === tool.id && (
+                                                <i className="fa-solid fa-circle-check text-purple-600 text-xl"></i>
+                                            )}
+                                        </div>
+                                        <p className="text-gray-600 text-sm mb-3">{tool.description}</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {tool.metrics.map((metric, idx) => (
+                                                <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                                                    {metric}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {selectedTool && (
+                            <div className="bg-white rounded-xl p-6 shadow-md">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-xl font-bold flex items-center">
+                                        <i className={`fa-solid ${selectedTool.icon} ${selectedTool.color} mr-2`}></i>
+                                        {selectedTool.name} Configuration
+                                    </h3>
+                                    <button
+                                        onClick={() => runAnalysis(selectedTool)}
+                                        disabled={isAnalyzing || !repoPath}
+                                        className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+                                    >
+                                        {isAnalyzing ? (
+                                            <>
+                                                <i className="fa-solid fa-spinner fa-spin mr-2"></i>
+                                                Analyzing...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <i className="fa-solid fa-play mr-2"></i>
+                                                Run Analysis
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+
+                                {/* Configuration Options */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Time Range (months)
+                                        </label>
+                                        <input
+                                            type="number"
+                                            defaultValue="6"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            File Extensions
+                                        </label>
+                                        <input
+                                            type="text"
+                                            defaultValue=".py,.js,.ts"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Output Display */}
+                                {output && (
+                                    <div>
+                                        <h4 className="font-medium text-gray-700 mb-2">Output:</h4>
+                                        <pre className="code-output bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto">
+{output}
+                                        </pre>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                );
+            };
+
+            const CodeReviewPage = () => {
+                const [prUrl, setPrUrl] = useState('');
+                const [reviewStage, setReviewStage] = useState('pre-review');
+                const [checklist, setChecklist] = useState({
+                    prDescription: false,
+                    screenshots: false,
+                    aiDisclosure: false,
+                    tests: false,
+                    architecture: false,
+                    codeQuality: false,
+                    naming: false,
+                    documentation: false
+                });
+
+                const stages = [
+                    { id: 'pre-review', name: 'Pre-Code Review', icon: 'fa-clipboard-check' },
+                    { id: 'understanding', name: 'Understanding Why', icon: 'fa-lightbulb' },
+                    { id: 'code-review', name: 'Code Review', icon: 'fa-code' },
+                    { id: 'feedback', name: 'Feedback', icon: 'fa-comment-dots' }
+                ];
+
+                return (
+                    <div className="space-y-6">
+                        <div className="bg-white rounded-xl p-6 shadow-md">
+                            <h2 className="text-2xl font-bold mb-6 flex items-center">
+                                <i className="fa-solid fa-code-pull-request mr-3 text-indigo-600"></i>
+                                Code Review Tool
+                            </h2>
+
+                            {/* PR Input */}
+                            <div className="mb-6">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Pull Request URL or Path
+                                </label>
+                                <div className="flex gap-3">
+                                    <input
+                                        type="text"
+                                        value={prUrl}
+                                        onChange={(e) => setPrUrl(e.target.value)}
+                                        placeholder="https://github.com/user/repo/pull/123"
+                                        className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none"
+                                    />
+                                    <button className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                                        <i className="fa-solid fa-download mr-2"></i>
+                                        Load PR
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Review Stages */}
+                            <div className="mb-6">
+                                <h3 className="font-bold text-lg mb-4">Review Process</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                                    {stages.map((stage, idx) => (
+                                        <div
+                                            key={stage.id}
+                                            className={`cursor-pointer p-4 rounded-lg border-2 transition ${
+                                                reviewStage === stage.id
+                                                    ? 'border-indigo-500 bg-indigo-50'
+                                                    : 'border-gray-200 hover:border-indigo-300'
+                                            }`}
+                                            onClick={() => setReviewStage(stage.id)}
+                                        >
+                                            <div className="text-center">
+                                                <div className={`w-10 h-10 rounded-full mx-auto mb-2 flex items-center justify-center ${
+                                                    reviewStage === stage.id ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-600'
+                                                }`}>
+                                                    {idx + 1}
+                                                </div>
+                                                <i className={`fa-solid ${stage.icon} mb-2 ${
+                                                    reviewStage === stage.id ? 'text-indigo-600' : 'text-gray-500'
+                                                }`}></i>
+                                                <div className="text-sm font-medium">{stage.name}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Checklist for Current Stage */}
+                            <div className="bg-gray-50 rounded-lg p-6">
+                                <h3 className="font-bold text-lg mb-4">
+                                    {stages.find(s => s.id === reviewStage)?.name} Checklist
+                                </h3>
+                                <div className="space-y-3">
+                                    {reviewStage === 'pre-review' && (
+                                        <>
+                                            <ChecklistItem
+                                                label="PR has clear description explaining problem, why, and alternatives"
+                                                checked={checklist.prDescription}
+                                                onChange={() => setChecklist({...checklist, prDescription: !checklist.prDescription})}
+                                            />
+                                            <ChecklistItem
+                                                label="Before/after screenshots included (responsive versions)"
+                                                checked={checklist.screenshots}
+                                                onChange={() => setChecklist({...checklist, screenshots: !checklist.screenshots})}
+                                            />
+                                            <ChecklistItem
+                                                label="AI usage disclosed if applicable"
+                                                checked={checklist.aiDisclosure}
+                                                onChange={() => setChecklist({...checklist, aiDisclosure: !checklist.aiDisclosure})}
+                                            />
+                                            <ChecklistItem
+                                                label="Test suite passes"
+                                                checked={checklist.tests}
+                                                onChange={() => setChecklist({...checklist, tests: !checklist.tests})}
+                                            />
+                                        </>
+                                    )}
+                                    {reviewStage === 'understanding' && (
+                                        <div className="text-gray-700">
+                                            <p className="mb-3"><strong>Questions to answer:</strong></p>
+                                            <ul className="space-y-2 ml-4">
+                                                <li className="flex items-start">
+                                                    <i className="fa-solid fa-circle text-xs mr-2 mt-1.5 text-indigo-500"></i>
+                                                    <span>What is the root cause being addressed?</span>
+                                                </li>
+                                                <li className="flex items-start">
+                                                    <i className="fa-solid fa-circle text-xs mr-2 mt-1.5 text-indigo-500"></i>
+                                                    <span>Why was the original implementation done this way?</span>
+                                                </li>
+                                                <li className="flex items-start">
+                                                    <i className="fa-solid fa-circle text-xs mr-2 mt-1.5 text-indigo-500"></i>
+                                                    <span>What is the system-wide impact of this change?</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    )}
+                                    {reviewStage === 'code-review' && (
+                                        <>
+                                            <ChecklistItem
+                                                label="Code is in the right architectural layer"
+                                                checked={checklist.architecture}
+                                                onChange={() => setChecklist({...checklist, architecture: !checklist.architecture})}
+                                            />
+                                            <ChecklistItem
+                                                label="Follows DRY principle and existing patterns"
+                                                checked={checklist.codeQuality}
+                                                onChange={() => setChecklist({...checklist, codeQuality: !checklist.codeQuality})}
+                                            />
+                                            <ChecklistItem
+                                                label="Clear, self-explanatory naming"
+                                                checked={checklist.naming}
+                                                onChange={() => setChecklist({...checklist, naming: !checklist.naming})}
+                                            />
+                                            <ChecklistItem
+                                                label="Documentation explains 'why' not 'what'"
+                                                checked={checklist.documentation}
+                                                onChange={() => setChecklist({...checklist, documentation: !checklist.documentation})}
+                                            />
+                                        </>
+                                    )}
+                                    {reviewStage === 'feedback' && (
+                                        <div className="space-y-4">
+                                            <FeedbackTemplate type="blocking" />
+                                            <FeedbackTemplate type="important" />
+                                            <FeedbackTemplate type="nitpick" />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Review Summary */}
+                            <div className="mt-6 p-4 bg-indigo-50 rounded-lg border border-indigo-200">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <h4 className="font-bold text-indigo-900">Review Quality Score</h4>
+                                        <p className="text-sm text-indigo-700">
+                                            {Object.values(checklist).filter(Boolean).length} / {Object.values(checklist).length} checks passed
+                                        </p>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="text-3xl font-bold text-indigo-600">
+                                            {Math.round((Object.values(checklist).filter(Boolean).length / Object.values(checklist).length) * 100)}%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            const ChecklistItem = ({ label, checked, onChange }) => (
+                <label className="flex items-start cursor-pointer hover:bg-white p-3 rounded-lg transition">
+                    <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={onChange}
+                        className="mt-1 mr-3 h-5 w-5 text-indigo-600 rounded focus:ring-indigo-500"
+                    />
+                    <span className="text-gray-700">{label}</span>
+                </label>
+            );
+
+            const FeedbackTemplate = ({ type }) => {
+                const config = {
+                    blocking: { color: 'red', icon: 'fa-circle-xmark', label: 'Blocking' },
+                    important: { color: 'yellow', icon: 'fa-triangle-exclamation', label: 'Important' },
+                    nitpick: { color: 'blue', icon: 'fa-circle-info', label: 'Nitpick' }
+                };
+                const c = config[type];
+
+                return (
+                    <div className={`border-l-4 border-${c.color}-500 bg-${c.color}-50 p-4 rounded`}>
+                        <div className="flex items-center mb-2">
+                            <i className={`fa-solid ${c.icon} text-${c.color}-600 mr-2`}></i>
+                            <strong className={`text-${c.color}-900`}>{c.label}</strong>
+                        </div>
+                        <div className="text-sm text-gray-700 space-y-1">
+                            <p><strong>Issue:</strong> [What's wrong]</p>
+                            <p><strong>Why it matters:</strong> [Impact]</p>
+                            <p><strong>Suggestion:</strong> [How to fix]</p>
+                        </div>
+                    </div>
+                );
+            };
+
+            return (
+                <div className="min-h-screen">
+                    {/* Navigation */}
+                    <nav className="gradient-bg text-white shadow-lg">
+                        <div className="max-w-7xl mx-auto px-4 py-4">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-3">
+                                    <i className="fa-solid fa-compass text-3xl"></i>
+                                    <div>
+                                        <h1 className="text-xl font-bold">Codebase Tools Suite</h1>
+                                        <p className="text-xs opacity-80">Cartographer & Code Review</p>
+                                    </div>
+                                </div>
+                                <div className="flex space-x-2">
+                                    <NavButton
+                                        icon="fa-home"
+                                        label="Home"
+                                        active={activeTab === 'home'}
+                                        onClick={() => setActiveTab('home')}
+                                    />
+                                    <NavButton
+                                        icon="fa-compass"
+                                        label="Cartographer"
+                                        active={activeTab === 'cartographer'}
+                                        onClick={() => setActiveTab('cartographer')}
+                                    />
+                                    <NavButton
+                                        icon="fa-code-pull-request"
+                                        label="Code Review"
+                                        active={activeTab === 'review'}
+                                        onClick={() => setActiveTab('review')}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    {/* Main Content */}
+                    <div className="max-w-7xl mx-auto px-4 py-8">
+                        {activeTab === 'home' && <HomePage />}
+                        {activeTab === 'cartographer' && <CartographerPage />}
+                        {activeTab === 'review' && <CodeReviewPage />}
+                    </div>
+
+                    {/* Footer */}
+                    <footer className="bg-gray-800 text-white mt-12 py-6">
+                        <div className="max-w-7xl mx-auto px-4 text-center">
+                            <p className="text-sm opacity-75">
+                                <i className="fa-solid fa-code mr-2"></i>
+                                Codebase Cartographer & Code Review Tools
+                            </p>
+                            <p className="text-xs opacity-50 mt-2">
+                                Built with React • Powered by Claude Agent SDK
+                            </p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        const NavButton = ({ icon, label, active, onClick }) => (
+            <button
+                onClick={onClick}
+                className={`px-4 py-2 rounded-lg transition font-medium ${
+                    active
+                        ? 'bg-white text-purple-600'
+                        : 'bg-white/10 hover:bg-white/20 text-white'
+                }`}
+            >
+                <i className={`fa-solid ${icon} mr-2`}></i>
+                {label}
+            </button>
+        );
+
+        // Render the application
+        ReactDOM.render(<CodebaseToolsUI />, document.getElementById('root'));
+    </script>
+</body>
+</html>
