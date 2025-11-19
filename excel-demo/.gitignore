@@ -1,5 +1,6 @@
-.claude
-!**/.claude/skills
+# Ignore .claude except for skills directory
+agent/.claude/*
+!agent/.claude/skills/
 
 # Logs
 logs
