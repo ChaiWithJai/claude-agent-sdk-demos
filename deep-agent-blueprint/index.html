@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deep Agent Blueprint | Princeton Idea Exchange</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Deep Agent Blueprint | Princeton Idea Exchange">
+  <meta property="og:description" content="The framework for AI that ships artifacts, not advice. 4 principles. Proven in 5 domains. Zero training required.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Deep Agent Blueprint">
+  <meta name="twitter:description" content="The framework for AI that ships artifacts, not advice">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="flipbook-container">
+    <!-- Navigation -->
+    <div class="nav-controls">
+      <button class="nav-btn prev-btn" aria-label="Previous page">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      <div class="page-indicator">
+        <span class="current-page">1</span> / <span class="total-pages">20</span>
+      </div>
+      <button class="nav-btn next-btn" aria-label="Next page">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Flipbook -->
+    <div id="flipbook">
+      <!-- Page 1: Cover -->
+      <div class="page page-cover" data-density="hard">
+        <div class="page-content cover-content">
+          <div class="logo">
+            <div class="logo-mark">PIE</div>
+            <span class="logo-text">PRINCETON IDEA EXCHANGE</span>
+          </div>
+          <h1 class="cover-title">Deep Agent<br>Blueprint</h1>
+          <p class="cover-subtitle">The framework for AI that ships artifacts, not advice</p>
+          <div class="cover-visual">
+            <div class="neural-to-docs"></div>
+          </div>
+          <p class="flip-hint">Flip to begin <span class="arrow">→</span></p>
+        </div>
+      </div>
+
+      <!-- Page 2: Pain Points -->
+      <div class="page" data-density="soft">
+        <div class="page-content">
+          <h2 class="page-headline">Sound familiar?</h2>
+          <ul class="pain-points">
+            <li>
+              <span class="pain-icon">💨</span>
+              <span>Your team tried ChatGPT. Now it's gathering dust.</span>
+            </li>
+            <li>
+              <span class="pain-icon">🔄</span>
+              <span>AI pilots that never graduate to production.</span>
+            </li>
+            <li>
+              <span class="pain-icon">✏️</span>
+              <span>Generic outputs that need heavy editing.</span>
+            </li>
+            <li>
+              <span class="pain-icon">📊</span>
+              <span>Leadership asking "Where's the ROI?"</span>
+            </li>
+          </ul>
+          <p class="emotional-hook">You're not alone. And it's not your fault.</p>
+        </div>
+      </div>
+
+      <!-- Page 3: Promise -->
+      <div class="page" data-density="soft">
+        <div class="page-content">
+          <h2 class="page-headline">What if AI could...</h2>
+          <ul class="promise-list">
+            <li class="promise-item">
+              <span class="check-icon">✓</span>
+              <span>Understand your domain without endless prompting</span>
+            </li>
+            <li class="promise-item">
+              <span class="check-icon">✓</span>
+              <span>Produce documents you can use immediately</span>
+            </li>
+            <li class="promise-item">
+              <span class="check-icon">✓</span>
+              <span>Get adopted by your team in days, not months</span>
+            </li>
+            <li class="promise-item">
+              <span class="check-icon">✓</span>
+              <span>Show measurable ROI from week one</span>
+            </li>
+          </ul>
+          <p class="transition-text">There's a framework that makes this possible.</p>
+        </div>
+      </div>
+
+      <!-- Page 4: Transformation Bridge -->
+      <div class="page" data-density="soft">
+        <div class="page-content transformation-page">
+          <div class="before-state">
+            <span class="state-label before-label">BEFORE</span>
+            <h3>AI initiatives that don't ship</h3>
+            <ul class="state-bullets">
+              <li>Generic AI requires prompting</li>
+              <li>Outputs need heavy editing</li>
+              <li>No domain context</li>
+              <li>Can't measure impact</li>
+            </ul>
+          </div>
+          <div class="bridge-arrow">
+            <div class="arrow-line"></div>
+            <span class="bridge-label">Deep Agent Architecture</span>
+          </div>
+          <div class="after-state">
+            <span class="state-label after-label">AFTER</span>
+            <h3>Domain AI that ships artifacts in minutes</h3>
+            <ul class="state-bullets">
+              <li>Zero training required</li>
+              <li>Artifacts ready to use</li>
+              <li>Understands your business</li>
+              <li>Measurable ROI</li>
+            </ul>
+          </div>
+          <p class="footer-text">4 principles. Proven in 5 domains. Zero training required.</p>
+        </div>
+      </div>
+
+      <!-- Page 5: Framework Divider -->
+      <div class="page divider-page" data-density="soft">
+        <div class="page-content">
+          <span class="section-number">01</span>
+          <h2 class="section-title">The 4 Principles</h2>
+          <p class="section-subtitle">What makes Deep Agents different from generic AI</p>
+          <div class="blueprint-visual">
+            <div class="quadrant q1"></div>
+            <div class="quadrant q2"></div>
+            <div class="quadrant q3"></div>
+            <div class="quadrant q4"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 6: Principle 1 -->
+      <div class="page principle-page" data-density="soft">
+        <div class="page-content">
+          <div class="principle-header">
+            <span class="principle-number">01</span>
+            <h2 class="principle-title">Domain-Specific Context</h2>
+          </div>
+          <p class="principle-one-liner">Pre-loaded with your business knowledge</p>
+
+          <div class="comparison">
+            <div class="comparison-item without">
+              <span class="comparison-label">Generic AI</span>
+              <p>Requires you to explain your business every time</p>
+            </div>
+            <div class="comparison-item with">
+              <span class="comparison-label">Deep Agent</span>
+              <p>Already knows your jargon, processes, and best practices</p>
+            </div>
+          </div>
+
+          <div class="proof-box">
+            <span class="proof-agent">PRIW Agent</span>
+            <p class="proof-detail">Speaks "ironworker"—customers, projects, markets</p>
+            <span class="proof-metric">Zero training. 2-week habit formation.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 7: Principle 1 Deep Dive -->
+      <div class="page story-page" data-density="soft">
+        <div class="page-content">
+          <h2 class="story-headline">How PRIW Made It Real</h2>
+
+          <div class="story-block">
+            <p class="story-text">A 98-year-old ironwork company had <strong>7,715 customer records</strong> trapped in spreadsheets. Sales team couldn't find basic information during calls.</p>
+          </div>
+
+          <div class="intervention-block">
+            <span class="intervention-label">The Solution</span>
+            <p>We built an agent that speaks their language.</p>
+            <div class="query-example">
+              <span class="query">"Who bought railing in Manhattan last year?"</span>
+              <span class="result">→ Answered in 30 seconds</span>
+            </div>
+          </div>
+
+          <div class="outcome-block">
+            <p><strong>Salespeople using it daily.</strong> What took 2-3 minutes now takes 30 seconds.</p>
+          </div>
+
+          <p class="self-efficacy-prompt">Your team could do this too.</p>
+        </div>
+      </div>
+
+      <!-- Page 8: Principle 2 -->
+      <div class="page principle-page" data-density="soft">
+        <div class="page-content">
+          <div class="principle-header">
+            <span class="principle-number">02</span>
+            <h2 class="principle-title">Structured Reasoning</h2>
+          </div>
+          <p class="principle-one-liner">Diagnose before prescribing</p>
+
+          <div class="comparison">
+            <div class="comparison-item without">
+              <span class="comparison-label">Generic AI</span>
+              <p>Jumps to answers without understanding your situation</p>
+            </div>
+            <div class="comparison-item with">
+              <span class="comparison-label">Deep Agent</span>
+              <p>Follows proven diagnostic flows to understand first</p>
+            </div>
+          </div>
+
+          <div class="proof-box">
+            <span class="proof-agent">GTM Agent</span>
+            <p class="proof-detail">3 questions → 5-level maturity score → calibrated advice</p>
+            <span class="proof-metric">No wasted effort on wrong solutions.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 9: Interactive Quiz -->
+      <div class="page interactive-page" data-density="soft">
+        <div class="page-content">
+          <h2 class="interactive-headline">Try It: The GTM Diagnostic</h2>
+
+          <p class="quiz-question">Where are you in your GTM journey?</p>
+
+          <div class="quiz-options" id="gtm-quiz">
+            <button class="quiz-option" data-value="pmf">Still finding product-market fit</button>
+            <button class="quiz-option" data-value="scale">Have customers, need to scale</button>
+            <button class="quiz-option" data-value="growth">Growing but inconsistent</button>
+            <button class="quiz-option" data-value="playbook">Scaling with proven playbook</button>
+          </div>
+
+          <p class="quiz-tease">The full GTM Agent asks 3 questions like this, then produces <strong>5 ready-to-use artifacts</strong>.</p>
+
+          <p class="cta-micro">Experience it after the Blueprint →</p>
+        </div>
+      </div>
+
+      <!-- Page 10: Principle 3 -->
+      <div class="page principle-page" data-density="soft">
+        <div class="page-content">
+          <div class="principle-header">
+            <span class="principle-number">03</span>
+            <h2 class="principle-title">Integrated Tool Use</h2>
+          </div>
+          <p class="principle-one-liner">Actions, not just answers</p>
+
+          <div class="comparison">
+            <div class="comparison-item without">
+              <span class="comparison-label">Generic AI</span>
+              <p>Gives advice you have to implement yourself</p>
+            </div>
+            <div class="comparison-item with">
+              <span class="comparison-label">Deep Agent</span>
+              <p>Connects to your systems and produces real outputs</p>
+            </div>
+          </div>
+
+          <div class="proof-box">
+            <span class="proof-agent">GTM Agent</span>
+            <p class="proof-detail">15 min → Scorecard, Emails, Posts, 30-Day Plan</p>
+            <span class="proof-metric">Artifacts ready to use immediately.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 11: Artifact Showcase -->
+      <div class="page showcase-page" data-density="soft">
+        <div class="page-content">
+          <h2 class="showcase-headline">What You Actually Get</h2>
+
+          <div class="artifacts-grid">
+            <div class="artifact-card">
+              <div class="artifact-icon">📊</div>
+              <h3>GTM Scorecard</h3>
+              <p>5-level diagnostic of your current state</p>
+            </div>
+            <div class="artifact-card">
+              <div class="artifact-icon">📧</div>
+              <h3>Email Sequence</h3>
+              <p>3 emails calibrated to your maturity level</p>
+            </div>
+            <div class="artifact-card">
+              <div class="artifact-icon">📋</div>
+              <h3>30-Day Action Plan</h3>
+              <p>Specific tasks, not generic advice</p>
+            </div>
+          </div>
+
+          <p class="showcase-contrast">This is what separates Deep Agents from chatbots: <strong>you leave with work product.</strong></p>
+        </div>
+      </div>
+
+      <!-- Page 12: Principle 4 -->
+      <div class="page principle-page" data-density="soft">
+        <div class="page-content">
+          <div class="principle-header">
+            <span class="principle-number">04</span>
+            <h2 class="principle-title">Long-Term Memory</h2>
+          </div>
+          <p class="principle-one-liner">Gets smarter over time</p>
+
+          <div class="comparison">
+            <div class="comparison-item without">
+              <span class="comparison-label">Generic AI</span>
+              <p>Forgets everything between sessions</p>
+            </div>
+            <div class="comparison-item with">
+              <span class="comparison-label">Deep Agent</span>
+              <p>Remembers context, learns from feedback, improves continuously</p>
+            </div>
+          </div>
+
+          <div class="proof-box">
+            <span class="proof-agent">Trace Mineral Agent</span>
+            <p class="proof-detail">Synthesizes 4 medical paradigms with accumulated research context</p>
+            <span class="proof-metric">Cross-session learning. Compounding intelligence.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 13: Proof Divider -->
+      <div class="page divider-page" data-density="soft">
+        <div class="page-content">
+          <span class="section-number">02</span>
+          <h2 class="section-title">Proof It Works</h2>
+          <p class="section-subtitle">Real agents. Real outcomes. Real teams.</p>
+          <div class="agents-visual">
+            <div class="agent-dot"></div>
+            <div class="agent-dot"></div>
+            <div class="agent-dot"></div>
+            <div class="agent-dot"></div>
+            <div class="agent-dot"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 14: Metrics -->
+      <div class="page metrics-page" data-density="soft">
+        <div class="page-content">
+          <h2 class="metrics-headline">By the Numbers</h2>
+
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-number">5</span>
+              <span class="metric-label">Working Agents</span>
+              <span class="metric-subtext">Across sales, research, learning, GTM</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-number">4-8</span>
+              <span class="metric-label">Weeks to Production</span>
+              <span class="metric-subtext">Not 6-12 months</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-number">0</span>
+              <span class="metric-label">Training Required</span>
+              <span class="metric-subtext">Teams adopt in hours</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-number">10x</span>
+              <span class="metric-label">Faster Time-to-Value</span>
+              <span class="metric-subtext">Deploy in days, not months</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 15: Portfolio -->
+      <div class="page portfolio-page" data-density="soft">
+        <div class="page-content">
+          <h2 class="portfolio-headline">The Deep Agent Portfolio</h2>
+
+          <div class="portfolio-grid">
+            <div class="portfolio-card">
+              <h3>PRIW</h3>
+              <span class="portfolio-domain">Sales Operations</span>
+              <p>Natural language access to customer data</p>
+            </div>
+            <div class="portfolio-card">
+              <h3>GTM Agent</h3>
+              <span class="portfolio-domain">Go-to-Market</span>
+              <p>Diagnosis + 5 artifacts in 15 minutes</p>
+            </div>
+            <div class="portfolio-card">
+              <h3>Study Buddy</h3>
+              <span class="portfolio-domain">Learning</span>
+              <p>AI tutor that builds actual capability</p>
+            </div>
+            <div class="portfolio-card">
+              <h3>Trace Mineral</h3>
+              <span class="portfolio-domain">Research</span>
+              <p>Multi-paradigm evidence synthesis</p>
+            </div>
+            <div class="portfolio-card">
+              <h3>Next Step Coach</h3>
+              <span class="portfolio-domain">Follow-up</span>
+              <p>Turn meeting notes into action</p>
+            </div>
+          </div>
+
+          <p class="portfolio-tease">After booking a call, you'll get hands-on access to explore these.</p>
+        </div>
+      </div>
+
+      <!-- Page 16: Testimonials -->
+      <div class="page testimonials-page" data-density="soft">
+        <div class="page-content">
+          <h2 class="testimonials-headline">What Teams Say</h2>
+
+          <div class="testimonial-card">
+            <blockquote>"Finally, something that doesn't require learning a new system."</blockquote>
+            <div class="testimonial-attribution">
+              <span class="attribution-role">Sales team, manufacturing company</span>
+              <span class="attribution-context">Using PRIW daily within 2 weeks</span>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <blockquote>"I got more done in 15 minutes than a week of trying ChatGPT."</blockquote>
+            <div class="testimonial-attribution">
+              <span class="attribution-role">Founder, B2B SaaS startup</span>
+              <span class="attribution-context">GTM Agent user</span>
+            </div>
+          </div>
+
+          <p class="self-efficacy-text">These are people like you. Different domains, same transformation.</p>
+        </div>
+      </div>
+
+      <!-- Page 17: Path Forward Divider -->
+      <div class="page divider-page" data-density="soft">
+        <div class="page-content">
+          <span class="section-number">03</span>
+          <h2 class="section-title">Your Path Forward</h2>
+          <p class="section-subtitle">From Blueprint to working agent</p>
+          <div class="pathway-visual">
+            <div class="milestone"></div>
+            <div class="milestone"></div>
+            <div class="milestone"></div>
+            <div class="milestone"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 18: Journey Map -->
+      <div class="page journey-page" data-density="soft">
+        <div class="page-content">
+          <h2 class="journey-headline">How We Work Together</h2>
+
+          <div class="journey-steps">
+            <div class="journey-step">
+              <span class="step-number">1</span>
+              <div class="step-content">
+                <h3>Discovery Call</h3>
+                <span class="step-duration">30 min</span>
+                <p>Map your specific use case to the framework</p>
+                <span class="step-outcome">→ Custom brief showing your Point A → Point B</span>
+              </div>
+            </div>
+            <div class="journey-step">
+              <span class="step-number">2</span>
+              <div class="step-content">
+                <h3>Discovery Sprint</h3>
+                <span class="step-duration">1 week</span>
+                <p>Deep dive into your domain and workflows</p>
+                <span class="step-outcome">→ Agent architecture + ROI projection</span>
+              </div>
+            </div>
+            <div class="journey-step">
+              <span class="step-number">3</span>
+              <div class="step-content">
+                <h3>Agent Build</h3>
+                <span class="step-duration">4-8 weeks</span>
+                <p>We build, you validate, iterate to production</p>
+                <span class="step-outcome">→ Working agent your team uses daily</span>
+              </div>
+            </div>
+            <div class="journey-step">
+              <span class="step-number">4</span>
+              <div class="step-content">
+                <h3>Ongoing Partnership</h3>
+                <span class="step-duration">Monthly</span>
+                <p>Continuous improvement + new use cases</p>
+                <span class="step-outcome">→ Compounding value over time</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="off-ramps">Clear go/no-go at each step. No long-term lock-in.</p>
+        </div>
+      </div>
+
+      <!-- Page 19: Self-Assessment -->
+      <div class="page assessment-page" data-density="soft">
+        <div class="page-content">
+          <h2 class="assessment-headline">Is This Right For You?</h2>
+
+          <div class="checklist" id="self-assessment">
+            <label class="checklist-item">
+              <input type="checkbox" name="assessment" value="tried-generic">
+              <span class="checkmark"></span>
+              <span>Your team has tried generic AI but it's not sticking</span>
+            </label>
+            <label class="checklist-item">
+              <input type="checkbox" name="assessment" value="domain-workflows">
+              <span class="checkmark"></span>
+              <span>You have domain-specific workflows AI could accelerate</span>
+            </label>
+            <label class="checklist-item">
+              <input type="checkbox" name="assessment" value="need-roi">
+              <span class="checkmark"></span>
+              <span>You need measurable ROI, not just "potential"</span>
+            </label>
+            <label class="checklist-item">
+              <input type="checkbox" name="assessment" value="move-fast">
+              <span class="checkmark"></span>
+              <span>You're ready to move in weeks, not quarters</span>
+            </label>
+          </div>
+
+          <div class="scoring-result" id="scoring-result">
+            <p class="score-message"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 20: CTA (Back Cover) -->
+      <div class="page page-cover cta-page" data-density="hard">
+        <div class="page-content cta-content">
+          <h2 class="cta-headline">Ready to build useful AI?</h2>
+
+          <a href="https://calendly.com/princetonideaexchange/discovery" class="cta-button primary" target="_blank" rel="noopener">
+            Book Discovery Call
+          </a>
+          <p class="cta-description">30 minutes. Custom demo for your domain.</p>
+
+          <div class="secondary-cta">
+            <a href="#" class="cta-button secondary" id="explore-agents">Explore the Agents First</a>
+            <p class="gate-note">Unlocked after booking a call</p>
+          </div>
+
+          <div class="footer-branding">
+            <div class="logo">
+              <div class="logo-mark">PIE</div>
+            </div>
+            <p class="tagline">Deep Agents for Decision Velocity</p>
+            <p class="contact">jai@princetonideaexchange.com</p>
+          </div>
+
+          <div class="share-buttons">
+            <button class="share-btn" data-platform="linkedin">Share on LinkedIn</button>
+            <button class="share-btn" data-platform="twitter">Share on X</button>
+            <button class="share-btn" data-platform="copy">Copy Link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 5%"></div>
+    </div>
+  </div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "deep-agent-blueprint",
+  "version": "1.0.0",
+  "description": "Deep Agent Blueprint - Interactive HTML5 Flipbook",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["flipbook", "ai", "deep-agent", "princeton-idea-exchange"],
+  "author": "Princeton Idea Exchange",
+  "license": "MIT",
+  "devDependencies": {
+    "page-flip": "^2.0.7",
+    "vite": "^6.0.3"
+  }
+}
